@@ -1,0 +1,8 @@
+---
+- name: Deploy frontend
+  hosts: all
+  become: true
+  gather_facts: false
+
+  roles:
+    - front

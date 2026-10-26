@@ -1,0 +1,38 @@
+---
+- name: Create Apache configuration directory
+  ansible.builtin.file:
+    path: /opt/httpd
+    state: directory
+    mode: "0755"
+
+- name: Copy Apache configuration
+  ansible.builtin.copy:
+    src: httpd.conf
+    dest: /opt/httpd/httpd.conf
+    mode: "0644"
+
+- name: Validate Apache configuration
+  ansible.builtin.command:
+    argv:
+      - docker
+      - run
+      - --rm
+      - --volume
+      - /opt/httpd/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
+      - yaoyaoyaol/tp-devops-http-server:latest
+      - httpd
+      - -t
+  changed_when: false
+
+- name: Start Apache reverse proxy
+  community.docker.docker_container:
+    name: httpd
+    image: yaoyaoyaol/tp-devops-http-server:latest
+    state: started
+    restart_policy: unless-stopped
+    published_ports:
+      - "80:80"
+    networks:
+      - name: my-network
+    volumes:
+      - /opt/httpd/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro

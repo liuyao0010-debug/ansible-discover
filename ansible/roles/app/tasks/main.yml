@@ -1,0 +1,14 @@
+---
+- name: Start Simple API
+  community.docker.docker_container:
+    name: simple-api
+    image: yaoyaoyaol/tp-devops-simple-api:latest
+    state: started
+    restart_policy: unless-stopped
+    published_ports:
+      - "8080:8080"
+    networks:
+      - name: my-network
+    env:
+      DATABASE_HOST: "database"
+      DATABASE_PASSWORD: "pwd"

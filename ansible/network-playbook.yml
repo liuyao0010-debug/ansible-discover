@@ -1,0 +1,8 @@
+---
+- name: Create Docker network
+  hosts: all
+  become: true
+  gather_facts: false
+
+  roles:
+    - network

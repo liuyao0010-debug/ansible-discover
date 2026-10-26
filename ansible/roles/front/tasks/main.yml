@@ -1,0 +1,16 @@
+
+---
+- name: Pull frontend Docker image
+  community.docker.docker_image:
+    name: yaoyaoyaol/tp-devops-front
+    tag: latest
+    source: pull
+
+- name: Start frontend container
+  community.docker.docker_container:
+    name: front
+    image: yaoyaoyaol/tp-devops-front:latest
+    state: started
+    restart_policy: unless-stopped
+    networks:
+      - name: my-network
