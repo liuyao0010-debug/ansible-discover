@@ -1,0 +1,12 @@
+# Local inventory files may contain server-specific information
+inventory.ini
+ansible/inventories/setup.yml
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
